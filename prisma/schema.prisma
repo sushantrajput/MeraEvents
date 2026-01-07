@@ -1,0 +1,39 @@
+// prisma/schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Event {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  date        DateTime
+  capacity    Int
+  
+  // Relation: One Event has Many Attendees
+  attendees   Attendee[]
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Attendee {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  
+  // Foreign Key Relation
+  eventId   String
+  event     Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
+
+  registeredAt DateTime @default(now())
+
+  // Constraint: An email can only register once for the same event
+  @@unique([email, eventId]) 
+}
