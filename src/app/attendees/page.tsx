@@ -2,7 +2,6 @@
 
 import { useState, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { useSearchParams } from "next/navigation"; // Added to read Header search
 import { format } from "date-fns";
 import { Search, Users, Filter, Loader2, Mail, ChevronDown, X } from "lucide-react";
 import { Input } from "@/components/ui/input";
@@ -12,8 +11,7 @@ import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 
 export default function AttendeesPage() {
-  const searchParams = useSearchParams();
-  const globalSearch = searchParams.get("query") || ""; // Read from Header
+  
   
   const [localSearch, setLocalSearch] = useState("");
   const [selectedEventFilter, setSelectedEventFilter] = useState<string | null>(null);
@@ -35,7 +33,7 @@ export default function AttendeesPage() {
   
   const filteredAttendees = attendees.filter((person: any) => {
  
-    const searchString = (localSearch || globalSearch).toLowerCase();
+    const searchString = (localSearch).toLowerCase();
     
     const matchesSearch = 
       person.name.toLowerCase().includes(searchString) ||

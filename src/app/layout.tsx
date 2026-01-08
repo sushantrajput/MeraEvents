@@ -5,6 +5,7 @@ import QueryProvider from "@/components/providers/QueryProvider";
 import { Toaster } from "sonner";
 import { Sidebar } from "@/components/Sidebar"; 
 import { Header } from "@/components/Header";   
+import { Suspense } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -25,7 +26,9 @@ export default function RootLayout({
           <div className="flex min-h-screen bg-gray-50/50">
             <Sidebar /> 
             <main className="flex-1 ml-64 flex flex-col">
-              <Header /> 
+             <Suspense fallback={<div className="h-16 border-b bg-white" />}>
+                <Header /> 
+              </Suspense>
               <div className="flex-1 overflow-auto">
                 {children} 
               </div>
